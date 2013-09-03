@@ -24,8 +24,10 @@ module.exports = (function() {
         mdir = "data/flickr/methods",
         filename = mdir + "/" + method_name + ".json";
 
-    // advance the progress bar
-    progressBar.tick();
+    if (progressBar) {
+      // advance the progress bar
+      progressBar.tick();
+    }
 
     var handleResult = function(result) {
       var method = result.method,
@@ -126,7 +128,7 @@ module.exports = (function() {
       var methods = result.methods.method.map(function(v) {
         return v._content;
       });
-      if(!progressBar) {
+      if(!flickrOptions.quiet && !progressBar) {
         progressBar = new Progress('  fetching method signatures [:bar] :percent', { total: methods.length });
       }
       return parseMethods(flickrOptions, methods, 0, finished);
